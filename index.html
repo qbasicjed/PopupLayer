@@ -25,7 +25,7 @@
                 center: [-118.80500, 34.02700],
                 zoom: 13
               });
-              
+
               var popupTrailheads = {
                 "title": "{TRL_NAME}",
                 "content": "<b>City:</b> {CITY_JUR}<br><b>Cross Street:</b> {X_STREET}<br><b>Parking:</b> {PARKING}<br><b>Elevation:</b> {ELEV_FT} ft"
@@ -39,16 +39,28 @@
 
               map.add(trailheads);
 
+
               var popupTrails = {
-                "title": "Trail Information",
-                "content": function(){
-                  return "This is {TRL_NAME} with {ELEV_GAIN} ft of climbing.";
-                }
-              }
+                title: "Trail Information",
+              
+                
+                content: [{
+                  type: "media",
+                    mediaInfos: [{
+                      type: "column-chart",
+                      caption: "This is {TRL_NAME} with {ELEV_GAIN} ft of climbing.",
+                      value: {
+                        fields: [ "ELEV_MIN","ELEV_MAX" ],
+                        normalizeField: null,
+                        tooltipField: "Min and max elevation values"
+                      }
+                    }]
+                }]
+              } 
 
               var trails = new FeatureLayer({
                 url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails_Styled/FeatureServer/0",
-                outFields: ["TRL_NAME","ELEV_GAIN"],
+                outFields: ["TRL_NAME","ELEV_GAIN", "ELEV_MIN","ELEV_MAX"],
                 popupTemplate: popupTrails
               });
 
